@@ -2,7 +2,7 @@
   "name": "@m2g/select",
   "version": "0.0.1-rc.1",
   "description": "Simple select components using JavaScript",
-  "main": "./dist/js/index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "jest --env=jsdom",
     "lint": "eslint src/js ; exit 0",
@@ -15,7 +15,7 @@
     "component"
   ],
   "files": [
-    "dist",
+    "./dist/*.css"
   ],
   "author": "M2G",
   "license": "MIT",
