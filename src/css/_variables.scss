@@ -1,0 +1,46 @@
+// ==========================================================================
+// VARIABLES
+// ==========================================================================
+
+// Color swatch
+$_color-white: #fff !default;
+$_color-grey: #bebebe !default;
+$_color-grey-light: #d8d8d8 !default;
+$_color-grey-dark: #414141 !default;
+$_color-black: #1d1d1b !default;
+$_color-brand: $_color-grey-light !default;
+$_color-links: $_color-black !default;
+$_color-blue: rgb(38, 132 ,255) !default;
+
+// Base
+// ==========================================================================
+
+// Typography
+$_base-font-size: 16px !default;
+$_base-font-line-height: 1.5 !default;
+$_base-font-space: $_base-font-size * $_base-font-line-height !default;
+
+$_font-open-sans: 'Open Sans', sans-serif !default;
+$_base-font-family: $_font-open-sans !default;
+
+$_base-font-color: $_color-black !default;
+
+$_base-font-size-h1: 32px !default;
+$_base-font-size-h2: 30px !default;
+$_base-font-size-h3: 28px !default;
+$_base-font-size-h4: 26px !default;
+$_base-font-size-h5: 24px !default;
+$_base-font-size-h6: 18px !default;
+
+$_base-font-links-color: $_color-brand !default;
+$_base-font-links-color-hover: darken($_base-font-links-color, 5%) !default;
+$_base-font-links-color-focus: darken($_base-font-links-color, 10%) !default;
+$_base-font-links-text-decoration: none;
+
+// Tables
+$_base-tables-padding: $_base-font-space !default;
+$_base-tables-border-width: 1px;
+$_base-tables-border-color: $_color-grey-light;
+
+// GFX
+$_transition-default: all ease .25s !default;
