@@ -5,7 +5,7 @@
 // Simple select (with HTMLDivElement)
 
 import Select from '@m2g/select';
-import '@m2g/select/dist/style.css';
+import '@m2g/select/dist/styles.css';
 
 const options = [{
   placeholder: 'Choisir une thématique',
@@ -28,7 +28,7 @@ instance.on('CHANGE', result => {
 // Multi select (with HTMLDivElements)
 
 import Select from '@m2g/select';
-import '@m2g/select/dist/style.css';
+import '@m2g/select/dist/styles.css';
 
 const options = [{
   placeholder: 'Choisir une thématique',
@@ -59,7 +59,7 @@ for (let i = 0; i < instances.length; i += 1) {
 // Simple select (with HTMLSelectElement)
 
 import Select from '@m2g/select';
-import '@m2g/select/dist/style.css';
+import '@m2g/select/dist/styles.css';
 
 const options = [{
   placeholder: 'Choisir une thématique',
@@ -80,7 +80,7 @@ instance.on('CHANGE', result => {
 // Simple select (without HTMLElement)
 
 import Select from '@m2g/select';
-import '@m2g/select/dist/style.css';
+import '@m2g/select/dist/styles.css';
 
 const options = [{
   placeholder: 'Choisir une thématique',

@@ -1,6 +1,6 @@
 {
   "name": "@m2g/select",
-  "version": "0.0.1-rc.1",
+  "version": "0.0.1-rc.2",
   "description": "Simple select components using JavaScript",
   "main": "./dist/index.js",
   "scripts": {
@@ -14,14 +14,11 @@
     "select",
     "component"
   ],
-  "files": [
-    "./dist/*.css"
-  ],
   "author": "M2G",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:M2G/select.git"
+    "url": "git+ssh://git@github.com/M2G/select.git"
   },
   "homepage": "https://github.com/M2G/select#readme",
   "devDependencies": {
@@ -39,5 +36,11 @@
   },
   "dependencies": {
     "@m2g/pubsub": "0.0.5"
+  },
+  "bugs": {
+    "url": "https://github.com/M2G/select/issues"
+  },
+  "directories": {
+    "test": "test"
   }
 }
