@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --env=jsdom",
     "lint": "eslint src/js ; exit 0",
-    "styles": "node-sass src/css/style.scss  dist/styles.css",
+    "styles": "node-sass src/css/style.scss  dist/style.css",
     "build": "babel src/js --presets airbnb --out-dir dist/ --source-maps",
     "prepublishOnly": "npm run lint && npm run test && npm run build && npm run styles"
   },
