@@ -2,6 +2,7 @@ import PubSub from '@m2g/pubsub';
 import debounce from './debounce';
 import Component from './component';
 import { SYSTEM_EVENTS, DOM_EVENTS, KEYS } from './constants';
+import '../css/style.scss';
 
 const {
   BLUR,
@@ -23,6 +24,10 @@ const {
   ARROW_DOWN
 } = KEYS;
 
+function wrap(el, wrapper) {
+  el.parentNode.insertBefore(wrapper, el);
+  wrapper.appendChild(el);
+}
 /**
  * @class
  * @constructor
@@ -52,37 +57,33 @@ class Select extends Component {
     this.isOpen = false;
     this.count = 0;
     this.options = options;
-
-    if (this.elem) {
+    if (this.elem &&
+      this.elem.tagName === 'SELECT') {
+      console.log('1');
       // select tag in DOM
       this.select = this.elem;
       // read values from DOM
       for (let i = 0; i < this.select.children.length; i += 1) {
-        if (!this.select.children[i].value && !this.select.children[i].innerText) {
-        /* eslint-disable */
-          continue;
-        /* eslint-enable */
+        if (this.select.children[i].value && this.select.children[i].innerText) {
+          this.options.push({
+            value: this.select.children[i].value,
+            label: this.select.children[i].innerText
+          });
         }
-        this.options[i] = {
-          value: this.select.children[i].value,
-          label: this.select.children[i].innerText
-        };
       }
     } else {
+      console.log('2');
+
       // select created programmatically
       this.select = document.createElement('select');
       this.select.setAttribute('name', name);
       // https://www.freecodecamp.org/forum/t/create-strings-using-template-literals-with-for-loop/220850
       const selectOptions = [];
       for (let i = 0; i < this.options.length; i += 1) {
-        if (!this.options[i].value && !this.options[i].label) {
-        /* eslint-disable */
-          continue;
-        /* eslint-enable */
+        if (this.options[i].value && this.options[i].label) {
+          selectOptions.push(`<option value="${this.options[i].value}">${this.options[i].label}</option>`);
         }
-        selectOptions.push(`<option value="${this.options[i].value}">${this.options[i].label}</option>`);
       }
-
       this.select.innerHTML = selectOptions.join('');
     }
 
@@ -96,16 +97,6 @@ class Select extends Component {
     const copyDivLabel = this.wrapper.cloneNode(false);
 
     this.wrapper.classList.add('c-select');
-
-    if (!this.select.parentNode) {
-      const parentNode = copyDivParentNode;
-      parentNode.appendChild(this.select);
-    } else {
-      // @see how to make a wrap with DOM in vanilla
-      // https://plainjs.com/javascript/manipulation/wrap-an-html-structure-around-an-element-28/
-      // https://stackoverflow.com/questions/3337587/wrapping-a-set-of-dom-elements-using-javascript/13169465
-      this.select.parentNode.insertBefore(this.wrapper, this.select.nextSibling);
-    }
 
     // label
     const labelWrapper = copyDivLabel;
@@ -128,12 +119,9 @@ class Select extends Component {
     const dropdownOptions = [];
     /* eslint-disable */
     for (let i = 0; i < this.options.length; i += 1) {
-      if (!this.options[i].value && !this.options[i].label) {
-        continue;
-
-      }
+      if (this.options[i].value && this.options[i].label) {
       dropdownOptions.push(`<li class="c-select__dropdown__item" data-value="${this.options[i].value}">${this.options[i].label}</li>`);
-
+      }
     }
 
     this.dropdown.innerHTML = dropdownOptions.join('');
@@ -146,11 +134,35 @@ class Select extends Component {
         </svg>
       </div>`;
     /* eslint-enable */
+
     // append
     this.wrapper.innerHTML = icon;
     this.wrapper.appendChild(labelWrapper);
     this.wrapper.appendChild(this.input);
     this.wrapper.appendChild(this.dropdown);
+
+    console.log('this.select.parentNode', this.select.parentNode);
+
+    if (!this.select.parentNode && this.elem) {
+      console.log('!this.select.parentNode && this.elem');
+      this.elem.appendChild(this.select);
+      this.elem.appendChild(this.wrapper);
+    } else if (!this.select.parentNode) {
+
+      console.log('!this.select.parentNode');
+
+      copyDivParentNode.appendChild(this.select);
+      copyDivParentNode.appendChild(this.wrapper);
+
+      this.wrapper = copyDivParentNode;
+
+    } else {
+      console.log('4');
+      // @see how to make a wrap with DOM in vanilla
+      // https://plainjs.com/javascript/manipulation/wrap-an-html-structure-around-an-element-28/
+      wrap(this.elem, copyDivParentNode);
+      copyDivParentNode.appendChild(this.wrapper);
+    }
 
     // Init events
     this._setupEventHandlers();
@@ -275,13 +287,12 @@ class Select extends Component {
    * Append element
    * @param {Element} elem
    */
-  /* eslint-disable */
   appendTo(elem) {
     if (!(elem instanceof Element)) {
       console.error(Error(`${elem} is not an HTML Element`));
       return;
     }
-    /* eslint-enable */
+
     elem.appendChild(this.wrapper);
   }
 
@@ -323,7 +334,6 @@ class Select extends Component {
    * Add active
    * @param {Element} elem
    */
-  /* eslint-disable */
   _addActive(elem) {
     if (!elem.classList.contains('is-active')) {
       elem.classList.add('is-active');
@@ -355,7 +365,6 @@ class Select extends Component {
     this.isOpen = false;
     this.dropdown.classList.remove('is-visible');
   }
-  /* eslint-enable */
 }
 
 export default Select;
