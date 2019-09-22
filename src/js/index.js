@@ -86,7 +86,7 @@ class Select extends Component {
     this.wrapper = document.createElement('div');
 
     const cloneDiv = this.wrapper.cloneNode(false);
-    const cloneDivParentNode = cloneDiv;
+    const cloneDivParentNode = this.wrapper.cloneNode(false);
 
     this.wrapper.classList.add('c-select');
 
