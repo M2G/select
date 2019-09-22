@@ -2,7 +2,6 @@ import PubSub from '@m2g/pubsub';
 import debounce from './debounce';
 import Component from './component';
 import { SYSTEM_EVENTS, DOM_EVENTS, KEYS } from './constants';
-import '../css/style.scss';
 
 const {
   BLUR,
@@ -65,10 +64,10 @@ class Select extends Component {
       // read values from DOM
       for (let i = 0; i < this.select.children.length; i += 1) {
         if (this.select.children[i].value && this.select.children[i].innerText) {
-          this.options.push({
+          this.options[i] = {
             value: this.select.children[i].value,
             label: this.select.children[i].innerText
-          });
+          };
         }
       }
     } else {

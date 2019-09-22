@@ -25,7 +25,7 @@ instance.on('CHANGE', result => {
 });
 ```
 ```js
-// Multi select (with HTMLDivElements)
+// Multi select (with HTMLDivElements OR HTMLSelectElements)
 
 import Select from '@m2g/select';
 import '@m2g/select/dist/style.css';
