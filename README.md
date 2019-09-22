@@ -34,10 +34,13 @@ const options = [{
   placeholder: 'Choisir une thématique',
   label: 'label',
   name: 'foo',
+  // for HTMLDivElements
   options: [
     { value: 5, label: 'foo' },
     { value: 10, label: 'bar' }
   ]
+  // for HTMLSelectElements
+  // options: []
 }];
 
 const elems = document.querySelectorAll('.select');

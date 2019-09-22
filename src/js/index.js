@@ -1,6 +1,7 @@
 import PubSub from '@m2g/pubsub';
 import debounce from './debounce';
 import Component from './component';
+import wrap from './wrap';
 import { SYSTEM_EVENTS, DOM_EVENTS, KEYS } from './constants';
 
 const {
@@ -23,10 +24,6 @@ const {
   ARROW_DOWN
 } = KEYS;
 
-function wrap(el, wrapper) {
-  el.parentNode.insertBefore(wrapper, el);
-  wrapper.appendChild(el);
-}
 /**
  * @class
  * @constructor
@@ -56,9 +53,7 @@ class Select extends Component {
     this.isOpen = false;
     this.count = 0;
     this.options = options;
-    if (this.elem &&
-      this.elem.tagName === 'SELECT') {
-      console.log('1');
+    if (this.elem && this.elem.tagName === 'SELECT') {
       // select tag in DOM
       this.select = this.elem;
       // read values from DOM
@@ -71,8 +66,6 @@ class Select extends Component {
         }
       }
     } else {
-      console.log('2');
-
       // select created programmatically
       this.select = document.createElement('select');
       this.select.setAttribute('name', name);
@@ -92,13 +85,13 @@ class Select extends Component {
     // wrapper
     this.wrapper = document.createElement('div');
 
-    const copyDivParentNode = this.wrapper.cloneNode(false);
-    const copyDivLabel = this.wrapper.cloneNode(false);
+    const cloneDiv = this.wrapper.cloneNode(false);
+    const cloneDivParentNode = cloneDiv;
 
     this.wrapper.classList.add('c-select');
 
     // label
-    const labelWrapper = copyDivLabel;
+    const labelWrapper = cloneDiv;
     const lbl = document.createElement('label');
     labelWrapper.classList.add('c-select__label');
     lbl.innerHTML = label;
@@ -116,15 +109,17 @@ class Select extends Component {
     this.dropdown.classList.add('c-select__dropdown');
 
     const dropdownOptions = [];
-    /* eslint-disable */
     for (let i = 0; i < this.options.length; i += 1) {
       if (this.options[i].value && this.options[i].label) {
-      dropdownOptions.push(`<li class="c-select__dropdown__item" data-value="${this.options[i].value}">${this.options[i].label}</li>`);
+        dropdownOptions.push(
+          `<li class="c-select__dropdown__item" data-value="${this.options[i].value}">${this.options[i].label}</li>`
+        );
       }
     }
 
     this.dropdown.innerHTML = dropdownOptions.join('');
 
+    /* eslint-disable */
     // icon
     const icon = `
       <div class="c-select__icon">
@@ -133,34 +128,24 @@ class Select extends Component {
         </svg>
       </div>`;
     /* eslint-enable */
-
     // append
     this.wrapper.innerHTML = icon;
     this.wrapper.appendChild(labelWrapper);
     this.wrapper.appendChild(this.input);
     this.wrapper.appendChild(this.dropdown);
 
-    console.log('this.select.parentNode', this.select.parentNode);
-
     if (!this.select.parentNode && this.elem) {
-      console.log('!this.select.parentNode && this.elem');
       this.elem.appendChild(this.select);
       this.elem.appendChild(this.wrapper);
     } else if (!this.select.parentNode) {
-
-      console.log('!this.select.parentNode');
-
-      copyDivParentNode.appendChild(this.select);
-      copyDivParentNode.appendChild(this.wrapper);
-
-      this.wrapper = copyDivParentNode;
-
+      cloneDivParentNode.appendChild(this.select);
+      cloneDivParentNode.appendChild(this.wrapper);
+      this.wrapper = cloneDivParentNode;
     } else {
-      console.log('4');
       // @see how to make a wrap with DOM in vanilla
       // https://plainjs.com/javascript/manipulation/wrap-an-html-structure-around-an-element-28/
-      wrap(this.elem, copyDivParentNode);
-      copyDivParentNode.appendChild(this.wrapper);
+      wrap(this.elem, cloneDivParentNode);
+      cloneDivParentNode.appendChild(this.wrapper);
     }
 
     // Init events
@@ -286,6 +271,7 @@ class Select extends Component {
    * Append element
    * @param {Element} elem
    */
+  /* eslint-disable */
   appendTo(elem) {
     if (!(elem instanceof Element)) {
       console.error(Error(`${elem} is not an HTML Element`));
@@ -294,7 +280,6 @@ class Select extends Component {
 
     elem.appendChild(this.wrapper);
   }
-
   /**
    * Bind event
    * @param {eventName} event
@@ -303,7 +288,6 @@ class Select extends Component {
   on(eventName, callback) {
     this.events.subscribe(eventName, callback);
   }
-
   /**
    * Set selected elem
    * @param {Selected} selected
@@ -364,6 +348,7 @@ class Select extends Component {
     this.isOpen = false;
     this.dropdown.classList.remove('is-visible');
   }
+  /* eslint-disable */
 }
 
 export default Select;
