@@ -18,7 +18,7 @@ const options = [{
 }];
 
 const elem = document.querySelector('#select');
-const instance = Select.init(elem, options);
+const instance = Select.create(elem, options);
 
 instance.on('CHANGE', result => {
   console.log('RESULT : ', result);
@@ -44,7 +44,7 @@ const options = [{
 }];
 
 const elems = document.querySelectorAll('.select');
-const instances = Select.init(elems, options);
+const instances = Select.create(elems, options);
 
 instances[0].on('CHANGE', result => console.log('RESULT : ', result));
 instances[1].on('CHANGE', result => console.log('RESULT : ', result));
@@ -72,7 +72,7 @@ const options = [{
 }];
 
 const select = document.querySelector('#select2');
-const instance = Select.init(select, options);
+const instance = Select.create(select, options);
 
 instance.on('CHANGE', result => {
   console.log('RESULT : ', result);
@@ -95,7 +95,7 @@ const options = [{
   ]
 }];
 
-const instance = Select.init(null, options);
+const instance = Select.create(null, options);
 
 instance.appendTo(document.getElementById('output'));
 

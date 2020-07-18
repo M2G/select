@@ -152,8 +152,8 @@ class Select extends Component {
     this._setupEventHandlers();
   }
 
-  static init(elem, options) {
-    return super.init(this, elem, options);
+  static create(elem, options) {
+    return super.create(this, elem, options);
   }
 
   /**

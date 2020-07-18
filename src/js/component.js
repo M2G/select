@@ -21,7 +21,7 @@ class Component {
    * @param {Element | NodeList} els
    * @param {Object} options
    */
-  static init(ClassDef, elem, options) {
+  static create(ClassDef, elem, options) {
     let instances = null;
     if (elem instanceof Element) {
       instances = new ClassDef(elem, options);

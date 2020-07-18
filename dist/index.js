@@ -25,6 +25,8 @@ var _debounce = _interopRequireDefault(require("./debounce"));
 
 var _component = _interopRequireDefault(require("./component"));
 
+var _wrap = _interopRequireDefault(require("./wrap"));
+
 var _constants = require("./constants");
 
 var BLUR = _constants.SYSTEM_EVENTS.BLUR,
@@ -75,21 +77,17 @@ function (_Component) {
     _this.count = 0;
     _this.options = options;
 
-    if (_this.elem) {
+    if (_this.elem && _this.elem.tagName === 'SELECT') {
       // select tag in DOM
       _this.select = _this.elem; // read values from DOM
 
       for (var i = 0; i < _this.select.children.length; i += 1) {
-        if (!_this.select.children[i].value && !_this.select.children[i].innerText) {
-          /* eslint-disable */
-          continue;
-          /* eslint-enable */
+        if (_this.select.children[i].value && _this.select.children[i].innerText) {
+          _this.options[i] = {
+            value: _this.select.children[i].value,
+            label: _this.select.children[i].innerText
+          };
         }
-
-        _this.options[i] = {
-          value: _this.select.children[i].value,
-          label: _this.select.children[i].innerText
-        };
       }
     } else {
       // select created programmatically
@@ -101,13 +99,9 @@ function (_Component) {
       var selectOptions = [];
 
       for (var _i = 0; _i < _this.options.length; _i += 1) {
-        if (!_this.options[_i].value && !_this.options[_i].label) {
-          /* eslint-disable */
-          continue;
-          /* eslint-enable */
+        if (_this.options[_i].value && _this.options[_i].label) {
+          selectOptions.push("<option value=\"".concat(_this.options[_i].value, "\">").concat(_this.options[_i].label, "</option>"));
         }
-
-        selectOptions.push("<option value=\"".concat(_this.options[_i].value, "\">").concat(_this.options[_i].label, "</option>"));
       }
 
       _this.select.innerHTML = selectOptions.join('');
@@ -118,24 +112,14 @@ function (_Component) {
 
     _this.wrapper = document.createElement('div');
 
-    var copyDivParentNode = _this.wrapper.cloneNode(false);
+    var cloneDiv = _this.wrapper.cloneNode(false);
 
-    var copyDivLabel = _this.wrapper.cloneNode(false);
+    var cloneDivParentNode = _this.wrapper.cloneNode(false);
 
-    _this.wrapper.classList.add('c-select');
-
-    if (!_this.select.parentNode) {
-      var parentNode = copyDivParentNode;
-      parentNode.appendChild(_this.select);
-    } else {
-      // @see how to make a wrap with DOM in vanilla
-      // https://plainjs.com/javascript/manipulation/wrap-an-html-structure-around-an-element-28/
-      // https://stackoverflow.com/questions/3337587/wrapping-a-set-of-dom-elements-using-javascript/13169465
-      _this.select.parentNode.insertBefore(_this.wrapper, _this.select.nextSibling);
-    } // label
+    _this.wrapper.classList.add('c-select'); // label
 
 
-    var labelWrapper = copyDivLabel;
+    var labelWrapper = cloneDiv;
     var lbl = document.createElement('label');
     labelWrapper.classList.add('c-select__label');
     lbl.innerHTML = label;
@@ -157,17 +141,16 @@ function (_Component) {
     _this.dropdown.classList.add('c-select__dropdown');
 
     var dropdownOptions = [];
-    /* eslint-disable */
 
     for (var _i2 = 0; _i2 < _this.options.length; _i2 += 1) {
-      if (!_this.options[_i2].value && !_this.options[_i2].label) {
-        continue;
+      if (_this.options[_i2].value && _this.options[_i2].label) {
+        dropdownOptions.push("<li class=\"c-select__dropdown__item\" data-value=\"".concat(_this.options[_i2].value, "\">").concat(_this.options[_i2].label, "</li>"));
       }
-
-      dropdownOptions.push("<li class=\"c-select__dropdown__item\" data-value=\"".concat(_this.options[_i2].value, "\">").concat(_this.options[_i2].label, "</li>"));
     }
 
-    _this.dropdown.innerHTML = dropdownOptions.join(''); // icon
+    _this.dropdown.innerHTML = dropdownOptions.join('');
+    /* eslint-disable */
+    // icon
 
     var icon = "\n      <div class=\"c-select__icon\">\n        <svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"28\" viewBox=\"0 0 16 28\">\n          <path d=\"M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z\"></path>\n        </svg>\n      </div>";
     /* eslint-enable */
@@ -179,7 +162,22 @@ function (_Component) {
 
     _this.wrapper.appendChild(_this.input);
 
-    _this.wrapper.appendChild(_this.dropdown); // Init events
+    _this.wrapper.appendChild(_this.dropdown);
+
+    if (!_this.select.parentNode && _this.elem) {
+      _this.elem.appendChild(_this.select);
+
+      _this.elem.appendChild(_this.wrapper);
+    } else if (!_this.select.parentNode) {
+      cloneDivParentNode.appendChild(_this.select);
+      cloneDivParentNode.appendChild(_this.wrapper);
+      _this.wrapper = cloneDivParentNode;
+    } else {
+      // @see how to make a wrap with DOM in vanilla
+      // https://plainjs.com/javascript/manipulation/wrap-an-html-structure-around-an-element-28/
+      (0, _wrap["default"])(_this.elem, cloneDivParentNode);
+      cloneDivParentNode.appendChild(_this.wrapper);
+    } // Init events
 
 
     _this._setupEventHandlers();
@@ -364,8 +362,6 @@ function (_Component) {
         console.error(Error("".concat(elem, " is not an HTML Element")));
         return;
       }
-      /* eslint-enable */
-
 
       elem.appendChild(this.wrapper);
     }
@@ -418,8 +414,6 @@ function (_Component) {
      * @param {Element} elem
      */
 
-    /* eslint-disable */
-
   }, {
     key: "_addActive",
     value: function _addActive(elem) {
@@ -459,7 +453,7 @@ function (_Component) {
       this.isOpen = false;
       this.dropdown.classList.remove('is-visible');
     }
-    /* eslint-enable */
+    /* eslint-disable */
 
   }], [{
     key: "init",
