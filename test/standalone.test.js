@@ -1,5 +1,5 @@
-import Select from '../src/js/index';
-import { SYSTEM_EVENTS } from '../src/js/constants';
+import Select from '../src';
+import { SYSTEM_EVENTS } from '../src/constants';
 
 const { CHANGE } = SYSTEM_EVENTS;
 

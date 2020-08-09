@@ -1,2 +1,16 @@
-# Dependency directories
-node_modules/
+# cache directories
+*.DS_Store
+
+# webstorm project files
+.idea/workspace.xml
+.idea/modules.xml
+.idea/*.iml
+.idea/dictionaries/
+.idea/dataSources/
+
+# node
+node_modules
+
+# project
+public/library.*
+build
