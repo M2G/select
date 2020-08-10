@@ -79,8 +79,6 @@ class Select extends Component {
       label = '', // label
     } = params;
 
-    console.log('params', params)
-
     // instantiation pubsub
     this.events = new PubSub();
 
@@ -92,12 +90,21 @@ class Select extends Component {
       // select tag in DOM
       this.select = this.elem;
       // read values from DOM
-      for (let i = 0; i < this.select.children.length; i += 1) {
-        if (this.select.children[i].value && this.select.children[i].innerText) {
-          this.options[i] = {
-            value: this.select.children[i].value,
-            label: this.select.children[i].innerText,
-          };
+      if (this.select?.children?.length) {
+        for (let i = 0; i < this.select.children.length; i += 1) {
+          if (this.select.children[i].value && this.select.children[i].innerText) {
+
+            console.log(':::', {
+              value: this.select.children[i].value,
+              label: this.select.children[i].innerText,
+            })
+
+
+            this.options[i] = {
+              value: this.select.children[i].value,
+              label: this.select.children[i].innerText,
+            };
+          }
         }
       }
     } else {
@@ -106,10 +113,15 @@ class Select extends Component {
       this.select.setAttribute('name', name);
       // https://www.freecodecamp.org/forum/t/create-strings-using-template-literals-with-for-loop/220850
       const selectOptions = [];
-      for (let i = 0; i < this.options.length; i += 1) {
-        if (this.options[i].value && this.options[i].label) {
-          // @ts-ignore
-          selectOptions.push(`<option value="${this.options[i].value}">${this.options[i].label}</option>`);
+      if (this.options?.length){
+        for (let i = 0; i < this.options.length; i += 1) {
+
+          console.log('this.options[i].value', this.options[i].value)
+          console.log('this.options[i].label', this.options[i].label)
+          if (this.options[i].value && this.options[i].label) {
+            // @ts-ignore
+            selectOptions.push(`<option value="${this.options[i].value}">${this.options[i].label}</option>`);
+          }
         }
       }
       this.select.innerHTML = selectOptions.join('');
