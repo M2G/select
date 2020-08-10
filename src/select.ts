@@ -3,7 +3,7 @@ import PubSub from '@m2g/pubsub';
 import debounce from './debounce';
 import Component from './component';
 import wrap from './wrap';
-import { SYSTEM_EVENTS, DOM_EVENTS, KEYS } from './constants';
+import { SYSTEM_EVENTS, DOM_EVENTS, KEYS, DOM } from './constants';
 
 const {
   BLUR,
@@ -18,6 +18,10 @@ const {
   ON_KEY_UP,
   ON_MOUSE_DOWN,
 } = DOM_EVENTS;
+
+const {
+  SELECT
+} = DOM;
 
 const {
   ENTER,
@@ -86,23 +90,16 @@ class Select extends Component {
     this.isOpen = false;
     this.count = 0;
     this.options = options;
-    if (this.elem?.tagName === 'SELECT') {
+    if (this.elem?.tagName === SELECT) {
       // select tag in DOM
       this.select = this.elem;
       // read values from DOM
       if (this.select?.children?.length) {
-        for (let i = 0; i < this.select.children.length; i += 1) {
-          if (this.select.children[i].value && this.select.children[i].innerText) {
-
-            console.log(':::', {
-              value: this.select.children[i].value,
-              label: this.select.children[i].innerText,
-            })
-
-
+          for (let i = 0; i < this.select.children.length; i += 1) {
+          if (this.select.children?.[i]?.value && this.select.children?.[i]?.innerText) {
             this.options[i] = {
-              value: this.select.children[i].value,
-              label: this.select.children[i].innerText,
+              value: this.select.children?.[i]?.value,
+              label: this.select.children?.[i]?.innerText,
             };
           }
         }
@@ -112,14 +109,10 @@ class Select extends Component {
       this.select = document.createElement('select');
       this.select.setAttribute('name', name);
       // https://www.freecodecamp.org/forum/t/create-strings-using-template-literals-with-for-loop/220850
-      const selectOptions = [];
+      const selectOptions:any[] = [];
       if (this.options?.length){
         for (let i = 0; i < this.options.length; i += 1) {
-
-          console.log('this.options[i].value', this.options[i].value)
-          console.log('this.options[i].label', this.options[i].label)
-          if (this.options[i].value && this.options[i].label) {
-            // @ts-ignore
+          if (this.options?.[i]?.value && this.options[i]?.label) {
             selectOptions.push(`<option value="${this.options[i].value}">${this.options[i].label}</option>`);
           }
         }
@@ -145,30 +138,27 @@ class Select extends Component {
     lbl.innerHTML = label;
     labelWrapper.appendChild(lbl);
 
-
-
     // input
     this.input = document.createElement('input');
     this.input.classList.add('c-select__input');
     this.input.setAttribute('type', 'text');
-    this.input.setAttribute('readonly', true);
+    this.input.setAttribute('readonly', 'true');
     this.input.setAttribute('placeholder', placeholder);
 
     // dropdown
     this.dropdown = document.createElement('ul');
     this.dropdown.classList.add('c-select__dropdown');
 
-    const dropdownOptions = [];
-    for (let i = 0; i < this.options.length; i += 1) {
-      if (this.options[i].value && this.options[i].label) {
-
-        dropdownOptions.push(
-          // @ts-ignore
-          `<li class="c-select__dropdown__item" data-value="${this.options[i].value}">${this.options[i].label}</li>`,
-        );
+    const dropdownOptions:any[] = [];
+    if (this.options?.length) {
+      for (let i = 0; i < this.options.length; i += 1) {
+        if (this.options?.[i]?.value && this.options?.[i]?.label) {
+          dropdownOptions.push(
+            `<li class="c-select__dropdown__item" data-value="${this.options[i].value}">${this.options[i].label}</li>`,
+          );
+        }
       }
     }
-
     this.dropdown.innerHTML = dropdownOptions.join('');
 
     /* eslint-disable */
@@ -186,10 +176,10 @@ class Select extends Component {
     this.wrapper.appendChild(this.input);
     this.wrapper.appendChild(this.dropdown);
 
-    if (!this.select.parentNode && this.elem) {
+    if (!this.select?.parentNode && this.elem) {
       this.elem.appendChild(this.select);
       this.elem.appendChild(this.wrapper);
-    } else if (!this.select.parentNode) {
+    } else if (!this.select?.parentNode) {
       cloneDivParentNode.appendChild(this.select);
       cloneDivParentNode.appendChild(this.wrapper);
       this.wrapper = cloneDivParentNode;
@@ -213,8 +203,8 @@ class Select extends Component {
   /**
    * Destroy
    */
-  /* eslint-disable */
-  public destroy() {
+
+  public destroy(): void {
     this._removeEventHandlers();
     this.wrapper.remove();
     this.wrapper = undefined;
@@ -223,8 +213,8 @@ class Select extends Component {
   /**
    * Remove Event Handlers
    */
-  /* eslint-disable */
-  private _removeEventHandlers() {
+
+  private _removeEventHandlers(): void {
     this.input.removeEventListener(ON_CLICK, this._showDropdownBound);
     this.input.removeEventListener(ON_FOCUS, this._showDropdownBound);
     this.input.removeEventListener(ON_BLUR, this._hideDropdownBound);
@@ -237,7 +227,8 @@ class Select extends Component {
   /**
    * Setup Event Handlers
    */
-  private _setupEventHandlers() {
+
+  private _setupEventHandlers(): void {
     this._handleOptionClickBound = this._handleOptionClick.bind(this);
     this._handleOptionKeyUpBound = this._handleOptionKeyUp.bind(this);
     this._showDropdownBound = this._showDropdown.bind(this);
@@ -249,19 +240,18 @@ class Select extends Component {
     this.dropdown.addEventListener(ON_MOUSE_DOWN, (event) => event.preventDefault());
     this.dropdown.addEventListener(ON_CLICK, this._handleOptionClickBound);
     this.events.subscribe(BLUR, this._hideDropdownBound);
-    document.body.addEventListener(ON_KEY_UP, debounce(this._handleOptionKeyUpBound, 150), true);
+    document.body.addEventListener(ON_KEY_UP, debounce(this._handleOptionKeyUpBound, 150, null), true);
   }
 
   /**
    * Handle Option Click
    * @param {Event} event
    */
-  /* eslint-disable */
-  private _handleOptionClick({ target, target: { dataset = '', innerText = '' } }) {
-    // @ts-ignore
+
+  private _handleOptionClick({ target, target: { dataset, innerText = '' } }:
+                               { target: { dataset: { value: string }, innerText: string, matches: Function } }): void {
     const { value } = dataset;
     const label = innerText;
-    // @ts-ignore
     if (target.matches('li')) {
       this._setValueToInput(label);
       this._setValueToSelect(value);
@@ -277,30 +267,30 @@ class Select extends Component {
    * Handle Option Keyup
    * @param {Event} event
    */
-  /* eslint-disable */
-  private _handleOptionKeyUp({ keyCode }) {
-    if (!this.isOpen) return;
+
+  private _handleOptionKeyUp({ keyCode }): boolean | void {
+    if (!this.isOpen) return false;
 
     if (keyCode === ARROW_UP) {
       if (this.count === 0) { // i would become 0
-        this.count = this.dropdown.children.length; // so put it at the other end of the array
+        this.count = this.dropdown?.children?.length; // so put it at the other end of the array
       }
       this.count -= 1;
 
       this._getSelectedState();
       this._removeActive(this.selectedState);
-      this._addActive(this.dropdown.children[this.count]);
-      this._setSelectedState(this.dropdown.children[this.count]);
+      this._addActive(this.dropdown?.children?.[this.count]);
+      this._setSelectedState(this.dropdown?.children?.[this.count]);
     } else if (keyCode === ARROW_DOWN) {
       this.count += 1; // increase i by one
-      this.count %= this.dropdown.children.length; // if we've gone too high, start from `0` again
+      this.count %= this.dropdown?.children?.length; // if we've gone too high, start from `0` again
 
       this._getSelectedState();
       this._removeActive(this.selectedState);
-      this._addActive(this.dropdown.children[this.count]);
-      this._setSelectedState(this.dropdown.children[this.count]);
+      this._addActive(this.dropdown?.children?.[this.count]);
+      this._setSelectedState(this.dropdown?.children?.[this.count]);
     } else if (keyCode === ENTER) {
-      const { dataset = '', innerText = '' } = this.dropdown.children[this.count];
+      const { dataset = '', innerText = '' } = this.dropdown?.children?.[this.count];
       const { value } = dataset;
       const label = innerText;
       this._setValueToInput(label);
@@ -380,7 +370,7 @@ class Select extends Component {
    * @param {Element} elem
    */
   private _addActive(elem): void {
-    if (!elem.classList.contains('is-active')) {
+    if (!elem?.classList.contains('is-active')) {
       elem.classList.add('is-active');
     }
   }
@@ -390,7 +380,7 @@ class Select extends Component {
    * @param {Element} elem
    */
   private _removeActive(elem): void {
-    if (elem && elem.classList.contains('is-active')) {
+    if (elem?.classList.contains('is-active')) {
       elem.classList.remove('is-active');
     }
   }
@@ -400,7 +390,7 @@ class Select extends Component {
    */
   private _showDropdown(): void {
     this.isOpen = true;
-    this.dropdown.classList.add('is-visible');
+    this.dropdown?.classList.add('is-visible');
   }
 
   /**
@@ -408,9 +398,8 @@ class Select extends Component {
    */
   private _hideDropdown(): void {
     this.isOpen = false;
-    this.dropdown.classList.remove('is-visible');
+    this.dropdown?.classList.remove('is-visible');
   }
-  /* eslint-disable */
 }
 
 export default Select;

@@ -23,6 +23,10 @@ const DOM_EVENTS = {
   ON_MOUSE_DOWN           : 'mousedown'
 };
 
+const DOM = {
+  SELECT: "SELECT"
+};
+
 const KEYS = {
   ENTER      : 13,
   ARROW_UP   : 38,
@@ -32,5 +36,6 @@ const KEYS = {
 export {
   KEYS,
   SYSTEM_EVENTS,
-  DOM_EVENTS
+  DOM_EVENTS,
+  DOM
 };
