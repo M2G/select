@@ -1,6 +1,6 @@
 /* eslint-disable */
 import PubSub from '@m2g/pubsub';
-import debounce from './debounce';
+import debounce from './utility/debounce';
 import Component from './component';
 import wrap from './wrap';
 import { SYSTEM_EVENTS, DOM_EVENTS, KEYS, DOM } from './constants';

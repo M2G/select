@@ -1,5 +1,7 @@
-import Select from '../src';
-import { SYSTEM_EVENTS } from '../src/constants';
+/* eslint-disable */
+
+import Select from '../select';
+import { SYSTEM_EVENTS } from '../constants';
 
 const { CHANGE } = SYSTEM_EVENTS;
 
@@ -18,7 +20,7 @@ test('test one HTMLSelectElement', () => {
 
   for (let i = 0; i < value.length; i += 1) {
     const option = document.createElement('option');
-    option.value = value[i].value;
+    option.value = String(value[i].value);
     option.innerText = value[i].label;
     selectList.appendChild(option);
   }
@@ -31,7 +33,7 @@ test('test one HTMLSelectElement', () => {
     options: []
   };
 
-  const instances = Select.init(document.querySelector('#select'), options);
+  const instances:any = Select.create(document.querySelector('#select'), options);
 
     // check if select has been successfully created and if existing wrapper, input, dropdown
   expect(instances.elem &&
@@ -74,9 +76,7 @@ test('test one elem', () => {
     ]
   };
 
-  const instances = Select.init(document.querySelector('.wrapper'), options);
-
-  console.log('Select', instances);
+  const instances: any = Select.create(document.querySelector('.wrapper'), options);
 
   // check if select has been successfully created and if existing wrapper, input, dropdown
   expect(instances.wrapper && instances.input && instances.dropdown).toBeTruthy();
