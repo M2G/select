@@ -12,7 +12,7 @@ const options = {
   ]
 };
 
-const elem = document.querySelector('#select');
+const elem = document.getElementById('select');
 const instance = Select.create(elem, options);
 
 // @ts-ignore

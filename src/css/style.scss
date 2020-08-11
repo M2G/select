@@ -42,9 +42,7 @@ input:-moz-placeholder {
 
 .c-select {
   position: relative;
-
   display: inline-block;
-
   margin: 5px 0;
 
   &__dropdown {
@@ -94,7 +92,7 @@ input:-moz-placeholder {
       background-color: $_color-white;
 
       &:hover {
-        background-color: $_color-blue;
+        background-color: $_color-blue-light;
         color: $_color-white;
       }
 
@@ -145,10 +143,16 @@ input:-moz-placeholder {
 
     &:focus {
       border-width: 2px;
-      border-color: #2684ff;
+      border-color: $_color-blue;
       border-style: solid;
       outline: 0;
       box-shadow: none;
+
+      + div {
+        svg {
+          fill: #414141;
+        }
+      }
     }
   }
 
