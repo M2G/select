@@ -6,10 +6,7 @@ const options = {
   placeholder: 'Choisir une thématique',
   label: 'label',
   name: 'foo',
-  options: [
-    { value: 5, label: 'foo' },
-    { value: 10, label: 'bar' }
-  ]
+  options: []
 };
 
 const elem = document.getElementById('select');

@@ -7,7 +7,7 @@
 import Select from '@m2g/select';
 import '@m2g/select/dist/style.css';
 
-const options = [{
+const options = {
   placeholder: 'Choisir une thématique',
   label: 'label',
   name: 'foo',
@@ -15,7 +15,7 @@ const options = [{
     { value: 5, label: 'foo' },
     { value: 10, label: 'bar' }
   ]
-}];
+};
 
 const elem = document.querySelector('#select');
 const instance = Select.create(elem, options);
@@ -30,7 +30,7 @@ instance.on('CHANGE', result => {
 import Select from '@m2g/select';
 import '@m2g/select/dist/style.css';
 
-const options = [{
+const options = {
   placeholder: 'Choisir une thématique',
   label: 'label',
   name: 'foo',
@@ -41,7 +41,7 @@ const options = [{
   ]
   // for HTMLSelectElements
   // options: []
-}];
+};
 
 const elems = document.querySelectorAll('.select');
 const instances = Select.create(elems, options);
@@ -64,12 +64,12 @@ for (let i = 0; i < instances.length; i += 1) {
 import Select from '@m2g/select';
 import '@m2g/select/dist/style.css';
 
-const options = [{
+const options = {
   placeholder: 'Choisir une thématique',
   label: 'label',
   name: 'foo',
   options: []
-}];
+};
 
 const select = document.querySelector('#select2');
 const instance = Select.create(select, options);
@@ -85,7 +85,7 @@ instance.on('CHANGE', result => {
 import Select from '@m2g/select';
 import '@m2g/select/dist/style.css';
 
-const options = [{
+const options = {
   placeholder: 'Choisir une thématique',
   label: 'label',
   name: 'foo',
@@ -93,7 +93,7 @@ const options = [{
     { value: 5, label: 'foo' },
     { value: 10, label: 'bar' }
   ]
-}];
+};
 
 const instance = Select.create(null, options);
 
