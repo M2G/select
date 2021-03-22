@@ -1,5 +1,10 @@
 {
   "compilerOptions": {
+    "strict": true,
+    "strictNullChecks": true,
+    "allowSyntheticDefaultImports": true,
+    // "noEmit": true,
+    "strictPropertyInitialization": false,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "target": "es5",
@@ -7,7 +12,7 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "allowJs": true,
-    "jsx": "react",
+    "checkJs": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "declaration": true,
@@ -16,20 +21,30 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitThis": false,
     "noImplicitAny": false,
-    "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
+    "importsNotUsedAsValues": "preserve", // this is important for proper files watching
     "outDir": "./build",
-    "lib": ["es5", "es6", "es7", "es2017", "dom"],
-    "rootDirs": ["src", "stories"],
-    "baseUrl": "./src",
+    "lib": [
+      "ES2015",
+      "ES2016",
+      "ES2017",
+      "ES2018",
+      "ES2019",
+      "ES2020",
+      "ESNext",
+      "dom"
+    ],
+    "rootDirs": ["src"],
+    "baseUrl": "./",
     "paths": {
-      "@src": ["src"]
+      "@public": ["./public/*"],
+      "@constants": ["./src/constants/*"],
+      "@utils": ["./src/utils/*"]
     }
   },
   "include": [
-    "./src",
-    "./stories"
+    "./src"
   ],
   "exclude": [
     "**/__tests__/*",
@@ -40,6 +55,9 @@
     "config",
     "webpack",
     "jest"
+  ],
+  "files": [
+    "custom.d.ts"
   ],
   "compileOnSave": false,
   "buildOnSave": false
