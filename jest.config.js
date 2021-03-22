@@ -1,7 +1,7 @@
 module.exports = {
   "globals": {
     "ts-jest": {
-      "tsConfig": "<rootDir>/tsconfig.json"
+      "tsconfig": "<rootDir>/tsconfig.json"
     }
   },
   "preset": "ts-jest",
@@ -9,16 +9,18 @@ module.exports = {
     "<rootDir>/src"
   ],
   "transform": {
-    "^.+\\.(js|jsx)$": "babel-jest",
-    "^.+\\.(tsx|ts)?$": "ts-jest"
+    "^.+\\.(js)$": "babel-jest",
+    "^.+\\.(ts)?$": "ts-jest",
+    "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js"
   },
   "transformIgnorePatterns": [
     "[/\\\\]node_modules[/\\\\].+\\.(js|ts)$",
-    "^.+\\.module\\.(css|sass|scss)$"
+    "^.+\\.module\\.(css|sass|scss)$",
   ],
   "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.ts?$",
   "modulePaths": [],
   "moduleNameMapper": {
+    "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
     '\\.(css|scss)$': 'identity-obj-proxy',
   },
   "moduleFileExtensions": [

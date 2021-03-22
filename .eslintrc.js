@@ -4,8 +4,9 @@ module.exports = {
   "root": true,
   parser: "@typescript-eslint/parser",
   extends: [
-    "airbnb-base",
-    "airbnb-typescript/base",
+    "airbnb",
+    "airbnb/hooks",
+    "airbnb-typescript",
     "./node_modules/eslint-config-airbnb-base/rules/best-practices.js",
     "./node_modules/eslint-config-airbnb-base/rules/errors.js",
     "./node_modules/eslint-config-airbnb-base/rules/node.js",
@@ -13,14 +14,15 @@ module.exports = {
     "./node_modules/eslint-config-airbnb-base/rules/variables.js",
     "./node_modules/eslint-config-airbnb-base/rules/es6.js",
     "prettier",
-    "prettier/@typescript-eslint",
+    "plugin:react/recommended",
     "eslint:all",
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/all",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:react-hooks/recommended",
   ],
   parserOptions: {
     project: path.resolve(__dirname, './tsconfig.json'),
@@ -31,6 +33,7 @@ module.exports = {
   },
   plugins: ["@typescript-eslint", "jest", "prettier"],
   rules: {
+    "no-redeclare": 0,
     "no-return-assign": 0,
     "no-restricted-syntax": 0,
     "no-cond-assign": 0,
@@ -45,6 +48,7 @@ module.exports = {
     "multiline-ternary": 0,
     "init-declarations": 0,
     "func-style": 0,
+    "class-methods-use-this": 1,
 
     "max-statements": 0,
     "max-lines": 0,
@@ -60,6 +64,10 @@ module.exports = {
 
     "lines-between-class-members": "off",
 
+    "@typescript-eslint/no-type-alias": 1,
+    "@typescript-eslint/no-unsafe-call": 1,
+    "@typescript-eslint/member-ordering": 1,
+    "@typescript-eslint/no-unsafe-assignment": 1,
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-namespace": "off",
@@ -74,10 +82,18 @@ module.exports = {
     "@typescript-eslint/quotes": 0,
     "@typescript-eslint/restrict-template-expressions": 0,
     "@typescript-eslint/unbound-method": 1,
-    "@typescript-eslint/prefer-for-of": 1,
+    "@typescript-eslint/typedef": 1,
+    "@typescript-eslint/prefer-readonly-parameter-types": 1,
+    "@typescript-eslint/explicit-module-boundary-types": 1,
+    "typescript-eslint/ban-ts-comment": 0,
+    "@typescript-eslint/consistent-type-imports": 1,
+    "@typescript-eslint/object-curly-spacing": 1
   },
   settings: {
     "html/html-extensions": [".html"],
+    react:  {
+      version: "detect"
+    },
     "import/parsers": {
       "@typescript-eslint/parser": [".ts"]
     },
