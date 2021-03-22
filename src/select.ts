@@ -1,6 +1,6 @@
 /* eslint-disable */
-import PubSub from '@m2g/pubsub';
-import debounce from './utility/debounce';
+import PubSub from './utility';
+import debounce from 'lodash/debounce';
 import Component from './component';
 import wrap from './wrap';
 import { SYSTEM_EVENTS, DOM_EVENTS, KEYS, DOM } from './constants';
@@ -57,9 +57,9 @@ class Select extends Component {
 
   private _hideDropdownBound: () => void;
 
-  private _handleOptionClickBound: () => void;
+  private _handleOptionClickBound: OmitThisParameter<({target, target: {dataset, innerText}}: { target: { dataset: { value: string }; innerText: string; matches: Function } }) => void>;
 
-  private _handleOptionKeyUpBound: () => void;
+  private _handleOptionKeyUpBound: OmitThisParameter<({keyCode}: { keyCode: any }) => (boolean | void)>;
 
   /**
    * Construct Select instance
@@ -234,6 +234,7 @@ class Select extends Component {
     this.dropdown.removeEventListener(ON_CLICK, this._handleOptionClickBound);
     this.dropdown.removeEventListener(ON_MOUSE_DOWN, (event) => event.preventDefault());
     this.events.unsubscribe(BLUR, this._hideDropdownBound);
+    // @ts-ignore
     document.body.removeEventListener(ON_KEY_UP, this._handleOptionKeyUpBound);
   }
 
