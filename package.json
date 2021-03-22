@@ -96,6 +96,7 @@
   },
   "dependencies": {
     "cssnano": "^4.1.10",
+    "eslint-webpack-plugin": "^2.5.2",
     "eventemitter3": "^4.0.4",
     "format-json": "^1.0.3",
     "global": "^4.4.0",

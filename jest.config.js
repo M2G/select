@@ -11,7 +11,7 @@ module.exports = {
   "transform": {
     "^.+\\.(js)$": "babel-jest",
     "^.+\\.(ts)?$": "ts-jest",
-    "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js"
+    "^.+\\.css$": "<rootDir>/cssTransform.js"
   },
   "transformIgnorePatterns": [
     "[/\\\\]node_modules[/\\\\].+\\.(js|ts)$",
