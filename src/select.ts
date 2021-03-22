@@ -347,7 +347,7 @@ class Select extends Component {
 
   /**
    * Bind event
-   * @param {eventName} event
+   * @param eventName
    * @param {callback} callback
    */
   public on(eventName, callback): void {
