@@ -4,9 +4,7 @@ module.exports = {
   "root": true,
   parser: "@typescript-eslint/parser",
   extends: [
-    "airbnb",
-    "airbnb/hooks",
-    "airbnb-typescript",
+    "airbnb-base",
     "./node_modules/eslint-config-airbnb-base/rules/best-practices.js",
     "./node_modules/eslint-config-airbnb-base/rules/errors.js",
     "./node_modules/eslint-config-airbnb-base/rules/node.js",
@@ -14,15 +12,13 @@ module.exports = {
     "./node_modules/eslint-config-airbnb-base/rules/variables.js",
     "./node_modules/eslint-config-airbnb-base/rules/es6.js",
     "prettier",
-    "plugin:react/recommended",
     "eslint:all",
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/all",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
-    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
   ],
   parserOptions: {
     project: path.resolve(__dirname, './tsconfig.json'),
