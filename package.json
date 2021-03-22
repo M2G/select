@@ -98,7 +98,8 @@
     "cssnano": "^4.1.10",
     "eventemitter3": "^4.0.4",
     "format-json": "^1.0.3",
-    "global": "^4.4.0"
+    "global": "^4.4.0",
+    "lodash": "^4.17.21"
   },
   "files": [
     "build/*"
